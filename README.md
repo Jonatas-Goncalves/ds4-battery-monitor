@@ -1,5 +1,10 @@
-# DS4 Battery Monitor 🎮🔋
-
+# DS4 Battery Monitor 🎮🔋  
+<br>
+<br>
+<p align="center">
+  <img src="tray.png" alt="DS4 Battery Monitor Tray Preview">
+</p>  
+<br>  
 A lightweight and efficient battery monitor for DualShock 4 controllers on Linux. It displays dynamic icons in the system tray, allowing you to quickly identify battery levels and which specific controller (P1, P2, etc.) is being monitored.
 ✨ Features
 
@@ -17,9 +22,9 @@ A lightweight and efficient battery monitor for DualShock 4 controllers on Linux
 
 The monitor is designed to be versatile, working with two primary data sources:
 
-    **Native Kernel Drivers:** Automatically scans /sys/class/power_supply/ to detect controllers paired via native Linux Bluetooth drivers.
+  **Native Kernel Drivers:** Automatically scans /sys/class/power_supply/ to detect controllers paired via native Linux Bluetooth drivers.
 
-    **Custom ds4drv:** Fully compatible with the [modified version of ds4drv](https://github.com/Jonatas-Goncalves/ds4drv). The monitor accepts UDP packets sent by this driver, making it ideal for users utilizing it for advanced mapping or emulation.
+  **Custom ds4drv:** Fully compatible with the modified version of [ds4drv](https://github.com/Jonatas-Goncalves/ds4drv). The monitor accepts UDP packets sent by this driver, making it ideal for users utilizing it for advanced mapping or emulation.
 
 📊 Battery States & Icons
 
@@ -63,6 +68,7 @@ systemctl --user enable --now ds4-battery-monitor.service
 🔧 Technical Configuration
 
 The monitor listens on 127.0.0.1 at port 54321 by default. It expects UDP messages in the format ID:PERCENTAGE, where the ID can be the end of a MAC address or a numeric identifier sent by ds4drv.
+<br>
+<br>
 
-
-Developed by [Jonatas] Maintained on openSUSE Tumbleweed 🦎
+Developed by [Jonatas Gonçalves] Maintained on [openSUSE Tumbleweed](https://build.opensuse.org/package/show/hardware/ds4drv)🦎
