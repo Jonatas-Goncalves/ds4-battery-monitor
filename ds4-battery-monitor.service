@@ -1,0 +1,11 @@
+[Unit]
+Description=DualShock 4 Battery Monitor Tray Icon
+After=network.target bluetooth.target
+
+[Service]
+ExecStart=/usr/bin/python3 /usr/bin/ds4-battery-monitor.py
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target
