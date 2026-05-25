@@ -111,21 +111,10 @@ class MultiBatteryMonitor:
             event_path = self.rumble_devices.get(c_id)
             if not event_path:
                 return
-            #
-            # rounds = quantas sequências
-            # pulses = quantas tremidas por sequência
-            #
-
             for _ in range(rounds):
                 for _ in range(pulses):
                     self.send_rumble(c_id, duration_sec=0.07)
-                    #
-                    # pausa curta entre tremidas
-                    #
                     time.sleep(0.05)
-                #
-                # pausa entre sequências
-                #
 
                 time.sleep(0.45)
 
@@ -161,18 +150,14 @@ class MultiBatteryMonitor:
 
             effect_id = dev.upload_effect(effect)
 
-            # força máxima
             dev.write(ecodes.EV_FF, ecodes.FF_GAIN, 0x7FFF)
 
             print(f"[*] Playing rumble on controller {c_id}")
 
-            # inicia efeito
             dev.write(ecodes.EV_FF, effect_id, 1)
 
-            # espera terminar
             time.sleep(duration_sec + 0.05)
 
-            # remove efeito
             dev.erase_effect(effect_id)
 
         except Exception as e:
@@ -185,17 +170,12 @@ class MultiBatteryMonitor:
                 "25": False,
                 "15": False
             }
-        #
-        # Reset alertas se carregar novamente
-        #
+
         if percentage > 50:
             self.alert_states[c_id]["50"] = False
             self.alert_states[c_id]["25"] = False
             self.alert_states[c_id]["15"] = False
-        #
-        # 50%
-        # 3 sequências de 2 tremidas
-        #
+
         if (
             25 < percentage <= 50
             and
@@ -207,10 +187,7 @@ class MultiBatteryMonitor:
                 args=(c_id, 3, 2),
                 daemon=True
             ).start()
-        #
-        # 25%
-        # 3 sequências de 3 tremidas
-        #
+
         if (
             15 < percentage <= 25
             and
@@ -222,10 +199,7 @@ class MultiBatteryMonitor:
                 args=(c_id, 3, 3),
                 daemon=True
             ).start()
-        #
-        # 15%
-        # 4 sequências de 4 tremidas
-        #
+
         if (
             percentage <= 15
             and
@@ -259,10 +233,6 @@ class MultiBatteryMonitor:
             TRAY_SIZE = 32
             RENDER_SIZE = 128
 
-            #
-            # Cria indicator apenas 1 vez
-            #
-
             if c_id not in self.icons:
 
                 indicator = AyatanaAppIndicator3.Indicator.new(
@@ -288,15 +258,8 @@ class MultiBatteryMonitor:
 
                 self.icons[c_id] = indicator
 
-            #
-            # Recupera indicator existente
-            #
 
             indicator = self.icons[c_id]
-
-            #
-            # Carrega PNG original
-            #
 
             original = GdkPixbuf.Pixbuf.new_from_file(path)
 
@@ -308,10 +271,6 @@ class MultiBatteryMonitor:
                 GdkPixbuf.InterpType.HYPER
             )
 
-            #
-            # Surface Cairo
-            #
-
             surface = cairo.ImageSurface(
                 cairo.FORMAT_ARGB32,
                 RENDER_SIZE,
@@ -321,10 +280,6 @@ class MultiBatteryMonitor:
             ctx = cairo.Context(surface)
 
             ctx.set_antialias(cairo.ANTIALIAS_BEST)
-
-            #
-            # Desenha controle
-            #
 
             CONTROL_OFFSET_Y = -28
 
@@ -339,10 +294,6 @@ class MultiBatteryMonitor:
             )
 
             ctx.paint()
-
-            #
-            # Texto P1/P2
-            #
 
             text = f"P{c_id}"
 
@@ -365,10 +316,6 @@ class MultiBatteryMonitor:
             rect_x = (RENDER_SIZE - rect_w) / 2
             rect_y = RENDER_SIZE - rect_h
 
-            #
-            # Fundo preto translúcido
-            #
-
             radius = 12
 
             ctx.set_source_rgba(0.05, 0.05, 0.05, 0.95)
@@ -384,10 +331,6 @@ class MultiBatteryMonitor:
 
             ctx.fill()
 
-            #
-            # Texto branco
-            #
-
             ctx.set_source_rgb(1, 1, 1)
 
             text_x = rect_x + (rect_w - extents.width) / 2 - extents.x_bearing
@@ -396,10 +339,6 @@ class MultiBatteryMonitor:
             ctx.move_to(text_x, text_y)
 
             ctx.show_text(text)
-
-            #
-            # Exporta PNG temporário
-            #
 
             final_pixbuf = Gdk.pixbuf_get_from_surface(
                 surface,
@@ -423,10 +362,6 @@ class MultiBatteryMonitor:
                 [],
                 []
             )
-
-            #
-            # Atualiza AppIndicator
-            #
 
             indicator.set_icon_full(
                 tmp_icon,
@@ -508,7 +443,6 @@ class MultiBatteryMonitor:
                         pass
                     del self.rumble_handles[c_id]
 
-            # Limpa também o estado de alerta de bateria desse controle
             if c_id in self.alert_states:
                 del self.alert_states[c_id]
             if c_id in self.rumble_devices:
