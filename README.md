@@ -146,7 +146,6 @@ Expected UDP packet format:
 <br>
 <br>
 
-
 Developed by [Jonatas Gonçalves](https://www.linkedin.com/in/jonatasgon%C3%A7alves/)
 <a href="https://www.linkedin.com/in/jonatasgon%C3%A7alves/">
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg" width="18" height="18">
